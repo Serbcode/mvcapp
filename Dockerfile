@@ -16,6 +16,7 @@ COPY ["mvcapp.csproj", "./"]
 RUN dotnet restore "mvcapp.csproj"
 COPY . .
 WORKDIR "/src/."
+
 RUN dotnet build "mvcapp.csproj" -c Release -o /app/build
 
 FROM build AS publish

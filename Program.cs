@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+
 using mvcapp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,11 +23,12 @@ else
         throw new ArgumentNullException("[DB_CONNECTION_STRING] should be in Environment variables");
 }
 
-builder.Services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(constr));
+builder.Services.AddDbContext<ApiDbContext>(x => x.UseNpgsql(constr));
 
 var app = builder.Build();
 
 var db = app.Services.GetRequiredService<ApiDbContext>();
+db.Database.EnsureCreated();
 db.Database.Migrate();
 
 // Configure the HTTP request pipeline.
